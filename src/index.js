@@ -1,24 +1,47 @@
 import "./styles.css";
-import { ToDoItem, Project } from "./projects";
+import { ToDoItem, Project , ProjectList} from "./projects";
+import { displayPage, displayProjectList } from "./interface";
 
 function pageInit() {
-  let currentDate = new Date();
+  let currentDate = new Date().toLocaleDateString();
 
   let exampleItem = new ToDoItem(
     "example-title",
     "to-do item description",
-    "7/11/2025",
+    currentDate,
     "Important",
     "notes notes notes"
   );
 
-  console.log(exampleItem);
+   let exampleItem2 = new ToDoItem(
+    "example-title 2",
+    "to-do item description",
+    currentDate,
+    "Important",
+    "notes notes notes"
+  );
 
   let defaultProject = new Project("Default Project");
 
   defaultProject.addItem(exampleItem);
+  defaultProject.addItem(exampleItem2);
 
-  console.log(defaultProject);
+  let allProjects = new ProjectList;
+
+  allProjects.addProject(defaultProject);
+
+  let defaultProject2 = new Project("Default Project 2");
+
+  allProjects.addProject(defaultProject2);
+
+  displayPage();
+
+  displayProjectList(allProjects.projectsList);
+
+  //let test = projectsList.projectsList[1].projectName;
+
+  //console.log(test)
+
 };
 
 pageInit();
