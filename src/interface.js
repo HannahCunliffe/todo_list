@@ -1,6 +1,8 @@
-export {displayPage, displayProjectList}
+export {displayPage, displayProjectList, displaySelectedProject}
 
 import plusIcon from "./assets/plus.svg"
+
+import { projectsList } from "./projects";
 
 function displayPage() {
     let contentContainer = document.createElement("div");
@@ -73,4 +75,19 @@ function displayProjectList(list) {
         pageSidebar.append(projectContainer);
 
     });
+};
+
+function displaySelectedProject(projectName) {
+    //locate container for section of page which will display projects
+    let pageSection = document.getElementById("pageContent")
+
+    let projectHeading = document.createElement("h1");
+
+    projectHeading.id = "projectHeading";
+
+    let currentProject = projectsList.findProjectByName(projectName);
+
+    projectHeading.textContent = currentProject.projectName;
+
+    pageSection.append(projectHeading);
 };

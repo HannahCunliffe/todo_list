@@ -1,4 +1,4 @@
-export {ToDoItem, Project, ProjectList}
+export {ToDoItem, Project, projectsList}
 
 class ToDoItem {
     constructor(title, description, dueDate, priority, notes) {
@@ -25,15 +25,24 @@ class Project {
 
 };
 
-class ProjectList {
+const projectsList = new class ProjectList {
     
-    projectsList = [];
+    list = [];
 
     addProject(project) {
-        this.projectsList.push(project);
+        this.list.push(project);
     };
 
-    testMethod() {
-        console.log("hello")
-    }
-}
+    //functionality to search and return a project item via name
+    findProjectByName(name) {
+        let foundItem = null;
+        this.list.forEach(element => {
+            if(element.projectName == name) {
+                foundItem = element;
+            }
+        });
+        if(foundItem != null) {
+            return foundItem;
+        }
+    };
+};

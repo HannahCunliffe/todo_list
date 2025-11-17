@@ -1,6 +1,6 @@
 import "./styles.css";
-import { ToDoItem, Project , ProjectList} from "./projects";
-import { displayPage, displayProjectList } from "./interface";
+import { ToDoItem, Project , projectsList} from "./projects";
+import { displayPage, displayProjectList, displaySelectedProject } from "./interface";
 
 function pageInit() {
   let currentDate = new Date().toLocaleDateString();
@@ -26,19 +26,19 @@ function pageInit() {
   defaultProject.addItem(exampleItem);
   defaultProject.addItem(exampleItem2);
 
-  let allProjects = new ProjectList;
+  //let allProjects = new ProjectList;
 
-  allProjects.addProject(defaultProject);
+  projectsList.addProject(defaultProject);
 
   let defaultProject2 = new Project("Default Project 2");
 
-  allProjects.addProject(defaultProject2);
+  projectsList.addProject(defaultProject2);
 
   displayPage();
 
-  displayProjectList(allProjects.projectsList);
+  displayProjectList(projectsList.list);
 
-  
+  displaySelectedProject("Default Project");
 
 };
 
