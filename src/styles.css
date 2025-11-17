@@ -2,10 +2,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    color: #313628;
 }
 
 #contentContainer {
-    background-color: red;
     height: 100vh;
     width: 100vw;
     display: grid;
@@ -13,7 +13,7 @@
 }
 
 #sidebar {
-    background-color: purple;
+    background-color: #f1f1f1;
 }
 
 #projectsHeader {
@@ -42,11 +42,28 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 50px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 40px;
+    margin-bottom: 10px;
+}
+
+#projectContainer p {
+    background-color: #d7263d;
+    color: white;
+    padding: 6px 10px;
+    border: 1px;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 17px;
+}
+
+/* hover effect to make project selection clear for user*/
+#projectContainer:hover {
+    background-color: #4c86a8;
 }
 
 #pageContent {
-    background-color: green;
+    background-color: #4c86a8;
 }

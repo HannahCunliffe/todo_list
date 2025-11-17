@@ -66,15 +66,11 @@ function displayProjectList(list) {
         //add display of currently uncompleted tasks for each project sidebar entry
         if (numberOfTasks > 0) {
             let taskCount = document.createElement("p");
-            taskCount.textContent = `${numberOfTasks} >`;
+            taskCount.textContent = `${numberOfTasks}`;
             projectContainer.append(taskCount);
         };
 
         pageSidebar.append(projectContainer);
 
     });
-
-   
-    
-
-}
+};

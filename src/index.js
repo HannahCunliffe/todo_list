@@ -38,9 +38,7 @@ function pageInit() {
 
   displayProjectList(allProjects.projectsList);
 
-  //let test = projectsList.projectsList[1].projectName;
-
-  //console.log(test)
+  
 
 };
 
