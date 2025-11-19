@@ -38,7 +38,7 @@ function pageInit() {
 
   displayProjectList(projectsList.list);
 
-  displaySelectedProject("Default Project");
+  displaySelectedProject(defaultProject);
 
 };
 

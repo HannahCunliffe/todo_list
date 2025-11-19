@@ -1,4 +1,4 @@
-export {displayPage, displayProjectList, displaySelectedProject}
+export {displayPage, displayProjectList, displaySelectedProject, addProjectSelectionMethod}
 
 import plusIcon from "./assets/plus.svg"
 
@@ -65,10 +65,14 @@ function displayProjectList(list) {
         projectTitle.textContent = element.projectName;
         projectContainer.append(projectTitle);
 
+        //add on click method to select project view
+        addProjectSelectionMethod(projectContainer, element);
+
         //add display of currently uncompleted tasks for each project sidebar entry
         if (numberOfTasks > 0) {
             let taskCount = document.createElement("p");
             taskCount.textContent = `${numberOfTasks}`;
+            taskCount.id = "taskCounter";
             projectContainer.append(taskCount);
         };
 
@@ -77,17 +81,29 @@ function displayProjectList(list) {
     });
 };
 
-function displaySelectedProject(projectName) {
+function displaySelectedProject(project) {
     //locate container for section of page which will display projects
     let pageSection = document.getElementById("pageContent")
+
+    //empty container to ensure that the display is starting from a blank page section
+    if (pageSection.hasChildNodes() == true) {
+        pageSection.firstChild.remove();
+    };
 
     let projectHeading = document.createElement("h1");
 
     projectHeading.id = "projectHeading";
 
-    let currentProject = projectsList.findProjectByName(projectName);
+    //let currentProject = projectsList.findProjectByName(projectName);
 
-    projectHeading.textContent = currentProject.projectName;
+    projectHeading.textContent = project.projectName;
 
     pageSection.append(projectHeading);
+};
+
+function addProjectSelectionMethod(container, element) {
+    //adds click method to select project from page sidebar elements
+    container.addEventListener("click", () => {
+        displaySelectedProject(element);
+    });
 };
