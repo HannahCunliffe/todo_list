@@ -34,12 +34,13 @@ function pageInit() {
 
   projectsList.addProject(defaultProject2);
 
+  defaultProject2.addItem(exampleItem2);
+
   displayPage();
 
   displayProjectList(projectsList.list);
 
   displaySelectedProject(defaultProject);
-
 };
 
 pageInit();

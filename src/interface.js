@@ -86,7 +86,7 @@ function displaySelectedProject(project) {
     let pageSection = document.getElementById("pageContent")
 
     //empty container to ensure that the display is starting from a blank page section
-    if (pageSection.hasChildNodes() == true) {
+    while (pageSection.hasChildNodes() == true) {
         pageSection.firstChild.remove();
     };
 
@@ -99,6 +99,31 @@ function displaySelectedProject(project) {
     projectHeading.textContent = project.projectName;
 
     pageSection.append(projectHeading);
+
+    let tasksContainer = document.createElement("div");
+    tasksContainer.id = "tasksContainer";
+
+    project.projectItems.forEach(element => {
+        let taskContainer = document.createElement("div");
+        taskContainer.id = "task";
+
+        let checkbox = document.createElement("input");
+        checkbox.setAttribute("type", "checkbox");
+
+        //create separate div for checkbox for page formatting purposes
+        let checkboxDiv = document.createElement("div");
+        checkboxDiv.id = "checkboxContainer";
+        checkboxDiv.append(checkbox)
+
+        let taskTitle = document.createElement("h2");
+        taskTitle.textContent = element.title;
+
+        taskContainer.append(checkboxDiv);
+        taskContainer.append(taskTitle);
+        tasksContainer.append(taskContainer);
+    });
+
+    pageSection.append(tasksContainer);
 };
 
 function addProjectSelectionMethod(container, element) {
