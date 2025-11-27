@@ -1,6 +1,7 @@
 export {displayPage, displayProjectList, displaySelectedProject, addProjectSelectionMethod}
 
-import plusIcon from "./assets/plus.svg"
+import plusIcon from "./assets/plus.svg";
+import deleteIcon from "./assets/delete-filled-svgrepo-com.svg";
 
 import { projectsList } from "./projects";
 
@@ -108,6 +109,7 @@ function displaySelectedProject(project) {
         taskContainer.classList.add("task");
 
         let checkbox = document.createElement("input");
+        checkbox.id = "taskCheckbox";
         checkbox.setAttribute("type", "checkbox");
 
         //create separate div for checkbox and task content for page formatting purposes
@@ -116,6 +118,7 @@ function displaySelectedProject(project) {
         checkboxDiv.append(checkbox);
 
         let taskContent = document.createElement("div");
+        taskContent.classList.add("taskContent");
 
         let taskTitle = document.createElement("h2");
         taskTitle.textContent = element.title;
@@ -147,8 +150,16 @@ function displaySelectedProject(project) {
             taskContainer.classList.add("highPriority");
         };
 
+        //create delete button for task
+        let deleteButton = document.createElement("p");
+        let deleteBackground =  document.createElement("img");
+        deleteBackground.src = deleteIcon;
+        deleteButton.append(deleteBackground);
+        deleteButton.classList.add("btnDeleteTask");
+
         taskContainer.append(checkboxDiv);
         taskContainer.append(taskContent);
+        taskContainer.append(deleteButton);
         tasksContainer.append(taskContainer);
     });
 
