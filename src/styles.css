@@ -1,96 +1,108 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    color: #313628;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #313628;
 }
 
 #contentContainer {
-    height: 100vh;
-    width: 100vw;
-    display: grid;
-    grid-template-columns: 1fr 3fr;
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
 }
 
 #sidebar {
-    background-color: #f1f1f1;
-    border-right: 1px solid black;
+  background-color: #f1f1f1;
+  border-right: 1px solid black;
 }
 
 #projectsHeader {
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    margin-top: 20px;
-    margin-bottom: 50px;
-    justify-content: space-between;
-    padding: 0px 20px 10px 20px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  justify-content: space-between;
+  padding: 0px 20px 10px 20px;
 }
 
 #btnAddProject {
-     font-size: 30px;
-     display: flex;
-     align-items: center;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
 }
 
 #btnAddProject img {
-    height: 30px;
-    width: 30px;
-    padding: 5px;
+  height: 30px;
+  width: 30px;
+  padding: 5px;
 }
 
 #projectContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 40px;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 40px;
+  margin-bottom: 10px;
 }
 
 #projectContainer p {
-    background-color: #d7263d;
-    color: white;
-    padding: 6px 10px;
-    border: 1px;
-    border-radius: 15px;
-    font-weight: 600;
-    font-size: 17px;
+  background-color: #d7263d;
+  color: white;
+  padding: 6px 10px;
+  border: 1px;
+  border-radius: 15px;
+  font-weight: 600;
+  font-size: 17px;
 }
 
 /* hover effect to make project selection clear for user*/
 #projectContainer:hover {
-    background-color: #4c86a8;
+  background-color: #4c86a8;
 }
 
 #pageContent {
-    background-color: #4c86a8;
-    display: flex;
-    flex-direction: column;
+  background-color: #4c86a8;
+  display: flex;
+  flex-direction: column;
 }
 
 #projectHeading {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-    font-size: 50px;
-    border-bottom: 10px ridge #6F9283;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  font-size: 50px;
+  border-bottom: 10px ridge #6f9283;
 }
 
 #tasksContainer {
-    padding: 50px;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
 }
 
-#task {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    background-color: white;
-    border: 2px solid black;
-    box-shadow: 5px 5px 8px #6F9283, 10px 10px 8px gray;
+.task {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  background-color: white;
+  border: 1px solid black;
+  box-shadow: 5px 5px 8px rgb(49, 49, 49);
+}
+
+.lowPriority {
+  border-top: 15px solid green;
+}
+
+.mediumPriority {
+  border-top: 15px solid #ffbf00;
+}
+
+.highPriority {
+  border-top: 15px solid rgb(236, 31, 31);
 }

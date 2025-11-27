@@ -9,24 +9,32 @@ function pageInit() {
     "example-title",
     "to-do item description",
     currentDate,
-    "Important",
+    "Low",
     "notes notes notes"
   );
 
+
+  //second example item has no notes included
    let exampleItem2 = new ToDoItem(
     "example-title 2",
     "to-do item description",
     currentDate,
-    "Important",
-    "notes notes notes"
+    "Medium",
   );
+
+  let exampleItem3 = new ToDoItem(
+    "example title 3",
+    "item description for item 3",
+    currentDate,
+    "High",
+    "notes about this particular item"
+  )
 
   let defaultProject = new Project("Default Project");
 
   defaultProject.addItem(exampleItem);
   defaultProject.addItem(exampleItem2);
-
-  //let allProjects = new ProjectList;
+  defaultProject.addItem(exampleItem3);
 
   projectsList.addProject(defaultProject);
 
