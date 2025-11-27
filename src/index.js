@@ -36,6 +36,8 @@ function pageInit() {
 
   defaultProject2.addItem(exampleItem2);
 
+  exampleItem2.toggleCompleted();
+
   displayPage();
 
   displayProjectList(projectsList.list);

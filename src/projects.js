@@ -7,7 +7,16 @@ class ToDoItem {
         this.dueDate = dueDate;
         this.priority = priority;
         this.notes = notes;
-    }
+        this.completed = false;
+    };
+
+    toggleCompleted() {
+        if (this.completed == false) {
+            this.completed = true;
+        } else {
+            this.completed = false;
+        }
+    };
 }
 
 class Project {
