@@ -146,4 +146,9 @@
     cursor: pointer;
 }
 
+.taskComplete {
+  text-decoration: line-through;
+  opacity: 50%;
+}
+
 

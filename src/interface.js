@@ -3,8 +3,6 @@ export {displayPage, displayProjectList, displaySelectedProject, addProjectSelec
 import plusIcon from "./assets/plus.svg";
 import deleteIcon from "./assets/delete-filled-svgrepo-com.svg";
 
-import { projectsList } from "./projects";
-
 function displayPage() {
     let contentContainer = document.createElement("div");
 
@@ -112,6 +110,9 @@ function displaySelectedProject(project) {
         checkbox.id = "taskCheckbox";
         checkbox.setAttribute("type", "checkbox");
 
+        //runs function to enable checkbox method for toggling task complete/incomplete
+        addToggleTaskStatus(taskContainer, checkbox)
+
         //create separate div for checkbox and task content for page formatting purposes
         let checkboxDiv = document.createElement("div");
         checkboxDiv.id = "checkboxContainer";
@@ -172,3 +173,14 @@ function addProjectSelectionMethod(container, element) {
         displaySelectedProject(element);
     });
 };
+
+function addToggleTaskStatus(container, element) {
+    //adds click method to toggle task status
+    element.addEventListener("click", () => {
+        if (container.classList.contains("taskComplete")) {
+            container.classList.remove("taskComplete");
+        } else {
+            container.classList.add("taskComplete");
+        }
+    })
+}
