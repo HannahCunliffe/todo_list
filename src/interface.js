@@ -104,6 +104,7 @@ function displaySelectedProject(project) {
 
     project.projectItems.forEach(element => {
         let taskContainer = document.createElement("div");
+        taskContainer.id = element.id;
         taskContainer.classList.add("task");
 
         let checkbox = document.createElement("input");
@@ -111,7 +112,7 @@ function displaySelectedProject(project) {
         checkbox.setAttribute("type", "checkbox");
 
         //runs function to enable checkbox method for toggling task complete/incomplete
-        addToggleTaskStatus(taskContainer, checkbox)
+        addToggleTaskStatus(taskContainer, checkbox, element)
 
         //create separate div for checkbox and task content for page formatting purposes
         let checkboxDiv = document.createElement("div");
@@ -174,13 +175,16 @@ function addProjectSelectionMethod(container, element) {
     });
 };
 
-function addToggleTaskStatus(container, element) {
+function addToggleTaskStatus(container, element, task) {
     //adds click method to toggle task status
     element.addEventListener("click", () => {
         if (container.classList.contains("taskComplete")) {
             container.classList.remove("taskComplete");
+            task.toggleCompleted(false);
         } else {
             container.classList.add("taskComplete");
+            task.toggleCompleted(true);
         }
+        console.log(task.completed)
     })
 }

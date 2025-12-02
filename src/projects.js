@@ -2,6 +2,7 @@ export {ToDoItem, Project, projectsList}
 
 class ToDoItem {
     constructor(title, description, dueDate, priority, notes) {
+        this.id = self.crypto.randomUUID()
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
@@ -10,8 +11,8 @@ class ToDoItem {
         this.completed = false;
     };
 
-    toggleCompleted() {
-        if (this.completed == false) {
+    toggleCompleted(status) {
+        if (status == true) {
             this.completed = true;
         } else {
             this.completed = false;
