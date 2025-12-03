@@ -1,7 +1,7 @@
 export {ToDoItem, Project, projectsList}
 
 class ToDoItem {
-    constructor(title, description, dueDate, priority, notes) {
+    constructor(title, description, dueDate, priority, notes, projectID) {
         this.id = self.crypto.randomUUID()
         this.title = title;
         this.description = description;
@@ -9,6 +9,7 @@ class ToDoItem {
         this.priority = priority;
         this.notes = notes;
         this.completed = false;
+        this.projectID = projectID;
     };
 
     toggleCompleted(status) {
@@ -16,13 +17,14 @@ class ToDoItem {
             this.completed = true;
         } else {
             this.completed = false;
-        }
+        };
     };
-}
+};
 
 class Project {
     constructor(name) {
         this.projectName = name;
+        this.id = self.crypto.randomUUID();
     };
 
     projectName;
@@ -43,16 +45,16 @@ const projectsList = new class ProjectList {
         this.list.push(project);
     };
 
-    //functionality to search and return a project item via name
-    findProjectByName(name) {
+    //functionality to search and return a project item by ID
+    findProjectByID(id) {
         let foundItem = null;
         this.list.forEach(element => {
-            if(element.projectName == name) {
+            if(element.id == id) {
                 foundItem = element;
             }
         });
         if(foundItem != null) {
             return foundItem;
-        }
+        };
     };
 };

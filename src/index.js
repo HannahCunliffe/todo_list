@@ -5,14 +5,20 @@ import { displayPage, displayProjectList, displaySelectedProject } from "./inter
 function pageInit() {
   let currentDate = new Date().toLocaleDateString();
 
+  //initialise example projects
+
+  let defaultProject = new Project("Default Project");
+
+  let defaultProject2 = new Project("Default Project 2");
+
   let exampleItem = new ToDoItem(
     "example-title",
     "to-do item description",
     currentDate,
     "Low",
-    "notes notes notes"
+    "notes notes notes",
+    defaultProject.id,
   );
-
 
   //second example item has no notes included
    let exampleItem2 = new ToDoItem(
@@ -20,17 +26,29 @@ function pageInit() {
     "to-do item description",
     currentDate,
     "Medium",
+    null,
+    defaultProject.id,
   );
 
   let exampleItem3 = new ToDoItem(
-    "example title 3",
+    "example-title 3",
     "item description for item 3",
     currentDate,
     "High",
-    "notes about this particular item"
+    "notes about this particular item",
+    defaultProject.id,
+  );
+
+   let exampleItem4 = new ToDoItem(
+    "example-title 4",
+    "item description for item 4",
+    currentDate,
+    "High",
+    "notes about this particular item",
+    defaultProject2.id,
   )
 
-  let defaultProject = new Project("Default Project");
+
 
   defaultProject.addItem(exampleItem);
   defaultProject.addItem(exampleItem2);
@@ -38,11 +56,9 @@ function pageInit() {
 
   projectsList.addProject(defaultProject);
 
-  let defaultProject2 = new Project("Default Project 2");
-
   projectsList.addProject(defaultProject2);
 
-  defaultProject2.addItem(exampleItem2);
+  defaultProject2.addItem(exampleItem4);
 
   exampleItem2.toggleCompleted();
 
@@ -51,6 +67,7 @@ function pageInit() {
   displayProjectList(projectsList.list);
 
   displaySelectedProject(defaultProject);
+  
 };
 
 pageInit();

@@ -59,7 +59,7 @@ function displayProjectList(list) {
         //return to this and update it to filter by only incomplete tasks first
         let numberOfTasks = element.projectItems.length;
         let projectContainer = document.createElement("div");
-        projectContainer.id = "projectContainer";
+        projectContainer.classList.add("projectContainer");
         let projectTitle = document.createElement("h2");
         projectTitle.textContent = element.projectName;
         projectContainer.append(projectTitle);
@@ -71,7 +71,8 @@ function displayProjectList(list) {
         if (numberOfTasks > 0) {
             let taskCount = document.createElement("p");
             taskCount.textContent = `${numberOfTasks}`;
-            taskCount.id = "taskCounter";
+            taskCount.id = `taskCounter:${element.id}`;
+            taskCount.classList.add("taskCounter");
             projectContainer.append(taskCount);
         };
 
@@ -163,6 +164,12 @@ function displaySelectedProject(project) {
         taskContainer.append(taskContent);
         taskContainer.append(deleteButton);
         tasksContainer.append(taskContainer);
+
+        //check if task is marked completed and apply correct styling if so
+        if (element.completed == true) {
+            taskContainer.classList.add("taskComplete");
+            checkbox.checked = true;
+        };
     });
 
     pageSection.append(tasksContainer);
@@ -180,11 +187,37 @@ function addToggleTaskStatus(container, element, task) {
     element.addEventListener("click", () => {
         if (container.classList.contains("taskComplete")) {
             container.classList.remove("taskComplete");
+            //run function to keep sidebar task numbers correct
+            updateTaskCounter(task, "incomplete");
             task.toggleCompleted(false);
         } else {
             container.classList.add("taskComplete");
+             //run function to keep sidebar task numbers correct
+            updateTaskCounter(task, "complete");
             task.toggleCompleted(true);
-        }
-        console.log(task.completed)
-    })
-}
+        };
+    });
+};
+
+function updateTaskCounter(task, taskStatus) {
+   
+    let currentProject = task.projectID;
+
+    let counterToUpdate = document.getElementById(`taskCounter:${currentProject}`);
+
+    let taskCount = Number(counterToUpdate.textContent);
+
+    if (taskStatus == "incomplete") {
+        taskCount += 1;
+        //remove styling reserved for all tasks complete if currently applied
+        counterToUpdate.classList.remove("allTasksComplete");
+    } else {
+        taskCount -= 1;
+        //sets background of counter to green if no tasks remaining
+        if (taskCount == 0) {
+            counterToUpdate.classList.add("allTasksComplete");
+        };
+    };
+
+    counterToUpdate.textContent = taskCount;
+};
