@@ -35,6 +35,15 @@ class Project {
         this.projectItems.push(item);
     };
 
+    removeItem(itemID) {
+       // this.projectItems.forEach((element) => {
+        //    if (element.id == itemID) {
+       //         
+        //    };
+       // });
+        this.projectItems = this.projectItems.filter(item => item.id !== itemID);
+    };
+
 };
 
 const projectsList = new class ProjectList {

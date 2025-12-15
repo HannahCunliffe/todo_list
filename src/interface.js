@@ -72,12 +72,17 @@ function displayProjectList() {
 
   const pageSidebar = document.getElementById("sidebar");
 
+  //empty container to ensure that the display is starting from a blank page section
+  while (pageSidebar.hasChildNodes() == true) {
+    pageSidebar.firstChild.remove();
+  };
+
   let projectsDiv = document.createElement("div");
 
   projectsDiv.id = "projectsList";
 
   list.forEach((element) => {
-    //return to this and update it to filter by only incomplete tasks first
+   
     let numberOfTasks = element.projectItems.length;
     let projectContainer = document.createElement("div");
     projectContainer.classList.add("projectContainer");
@@ -95,7 +100,7 @@ function displayProjectList() {
       taskCount.id = `taskCounter:${element.id}`;
       taskCount.classList.add("taskCounter");
       projectContainer.append(taskCount);
-    }
+    };
 
     pageSidebar.append(projectContainer);
   });
@@ -113,8 +118,6 @@ function displaySelectedProject(project) {
   let projectHeading = document.createElement("h1");
 
   projectHeading.id = "projectHeading";
-
-  //let currentProject = projectsList.findProjectByName(projectName);
 
   projectHeading.textContent = project.projectName;
 
@@ -197,6 +200,14 @@ function displaySelectedProject(project) {
     taskContainer.append(deleteButton);
     tasksContainer.append(taskContainer);
 
+    //apply delete function to each task delete button
+    deleteButton.addEventListener("click", () => {
+      let taskID = element.id;
+      project.removeItem(taskID);
+      displaySelectedProject(project);
+      displayProjectList();
+    });
+
     //check if task is marked completed and apply correct styling if so
     if (element.completed == true) {
       taskContainer.classList.add("taskComplete");
@@ -205,14 +216,14 @@ function displaySelectedProject(project) {
   });
 
   pageSection.append(tasksContainer);
-}
+};
 
 function addProjectSelectionMethod(container, element) {
   //adds click method to select project from page sidebar elements
   container.addEventListener("click", () => {
     displaySelectedProject(element);
   });
-}
+};
 
 function addToggleTaskStatus(container, element, task) {
   //adds click method to toggle task status
@@ -250,7 +261,7 @@ function updateTaskCounter(task, taskStatus) {
     if (taskCount == 0) {
       counterToUpdate.classList.add("allTasksComplete");
     }
-  }
+  };
 
   counterToUpdate.textContent = taskCount;
 };
