@@ -46,7 +46,7 @@ function pageInit() {
     "High",
     "notes about this particular item",
     defaultProject2.id,
-  )
+  );
 
 
 

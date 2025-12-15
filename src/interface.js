@@ -162,7 +162,19 @@ function displaySelectedProject(project) {
 
       taskContent.append(heading);
       taskContent.append(notes);
-    }
+    };
+
+    //add display of due-date
+    let dueDate = document.createElement("div");
+    let label  = document.createElement("h4");
+    label.textContent = "Due Date:";
+    dueDate.append(label);
+    let taskDate = document.createElement("p");
+    taskDate.textContent = element.dueDate;
+    dueDate.append(taskDate);
+
+    taskContent.append(dueDate);
+
 
     //assign different colour styles depending on task priority
     if (element.priority == "Low") {
@@ -171,7 +183,7 @@ function displaySelectedProject(project) {
       taskContainer.classList.add("mediumPriority");
     } else if (element.priority == "High") {
       taskContainer.classList.add("highPriority");
-    }
+    };
 
     //create delete button for task
     let deleteButton = document.createElement("p");
