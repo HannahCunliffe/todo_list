@@ -72,9 +72,12 @@ function displayProjectList() {
 
   const pageSidebar = document.getElementById("sidebar");
 
-  //empty container to ensure that the display is starting from a blank page section
-  while (pageSidebar.hasChildNodes() == true) {
-    pageSidebar.firstChild.remove();
+  //empty project container to prevent display errors
+  
+  let projectContainers = document.getElementsByClassName("projectContainer");
+  
+  while (projectContainers.length > 0){
+    projectContainers[0].remove();
   };
 
   let projectsDiv = document.createElement("div");
