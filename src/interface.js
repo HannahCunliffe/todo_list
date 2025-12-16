@@ -6,6 +6,7 @@ export {
 };
 
 import { projectsList } from "./projects";
+import { Project } from "./projects";
 
 import plusIcon from "./assets/plus.svg";
 import deleteIcon from "./assets/delete-filled-svgrepo-com.svg";
@@ -54,6 +55,7 @@ function displayPage() {
   btnAddProject.addEventListener("click", () => {
     let modal = document.getElementById("modal");
     modal.style.display = "block";
+    createProjectForm();
   });
 
   let btnBackground = document.createElement("img");
@@ -65,7 +67,7 @@ function displayPage() {
   projectsHeader.append(btnAddProject);
 
   sidebar.append(projectsHeader);
-};
+}
 
 function displayProjectList() {
   let list = projectsList.list;
@@ -73,19 +75,18 @@ function displayProjectList() {
   const pageSidebar = document.getElementById("sidebar");
 
   //empty project container to prevent display errors
-  
+
   let projectContainers = document.getElementsByClassName("projectContainer");
-  
-  while (projectContainers.length > 0){
+
+  while (projectContainers.length > 0) {
     projectContainers[0].remove();
-  };
+  }
 
   let projectsDiv = document.createElement("div");
 
   projectsDiv.id = "projectsList";
 
   list.forEach((element) => {
-   
     let numberOfTasks = element.projectItems.length;
     let projectContainer = document.createElement("div");
     projectContainer.classList.add("projectContainer");
@@ -103,7 +104,7 @@ function displayProjectList() {
       taskCount.id = `taskCounter:${element.id}`;
       taskCount.classList.add("taskCounter");
       projectContainer.append(taskCount);
-    };
+    }
 
     pageSidebar.append(projectContainer);
   });
@@ -116,7 +117,7 @@ function displaySelectedProject(project) {
   //empty container to ensure that the display is starting from a blank page section
   while (pageSection.hasChildNodes() == true) {
     pageSection.firstChild.remove();
-  };
+  }
 
   let projectHeading = document.createElement("h1");
 
@@ -168,11 +169,11 @@ function displaySelectedProject(project) {
 
       taskContent.append(heading);
       taskContent.append(notes);
-    };
+    }
 
     //add display of due-date
     let dueDate = document.createElement("div");
-    let label  = document.createElement("h4");
+    let label = document.createElement("h4");
     label.textContent = "Due Date:";
     dueDate.append(label);
     let taskDate = document.createElement("p");
@@ -181,7 +182,6 @@ function displaySelectedProject(project) {
 
     taskContent.append(dueDate);
 
-
     //assign different colour styles depending on task priority
     if (element.priority == "Low") {
       taskContainer.classList.add("lowPriority");
@@ -189,7 +189,7 @@ function displaySelectedProject(project) {
       taskContainer.classList.add("mediumPriority");
     } else if (element.priority == "High") {
       taskContainer.classList.add("highPriority");
-    };
+    }
 
     //create delete button for task
     let deleteButton = document.createElement("p");
@@ -219,14 +219,14 @@ function displaySelectedProject(project) {
   });
 
   pageSection.append(tasksContainer);
-};
+}
 
 function addProjectSelectionMethod(container, element) {
   //adds click method to select project from page sidebar elements
   container.addEventListener("click", () => {
     displaySelectedProject(element);
   });
-};
+}
 
 function addToggleTaskStatus(container, element, task) {
   //adds click method to toggle task status
@@ -243,7 +243,7 @@ function addToggleTaskStatus(container, element, task) {
       task.toggleCompleted(true);
     }
   });
-};
+}
 
 function updateTaskCounter(task, taskStatus) {
   let currentProject = task.projectID;
@@ -264,10 +264,10 @@ function updateTaskCounter(task, taskStatus) {
     if (taskCount == 0) {
       counterToUpdate.classList.add("allTasksComplete");
     }
-  };
+  }
 
   counterToUpdate.textContent = taskCount;
-};
+}
 
 function createPageModal() {
   //create modal container
@@ -295,13 +295,13 @@ function createPageModal() {
 
   modalHeader.append(closeSpan);
 
-  let content = document.createElement("p");
+  let modalMainSection = document.createElement("div");
 
-  content.textContent = "some text in the modal";
+  modalMainSection.id = "modalMainSection";
 
   modalContent.append(modalHeader);
 
-  modalContent.append(content);
+  modalContent.append(modalMainSection);
 
   modal.append(modalContent);
 
@@ -318,4 +318,76 @@ function createPageModal() {
   });
 
   document.body.append(modal);
-};
+}
+
+function createProjectForm() {
+  let formContainer = document.getElementById("modalMainSection");
+
+  //removes any leftover elements that may already be in the section
+  while (formContainer.hasChildNodes() == true) {
+    formContainer.firstChild.remove();
+  }
+
+  let form = document.createElement("div");
+
+  form.id = "formContainer";
+
+  let nameLabel = document.createElement("label");
+
+  nameLabel.textContent = "Project Name:";
+
+  nameLabel.htmlFor = "projectName";
+
+  let projectName = document.createElement("input");
+
+  projectName.id = "projectName";
+
+  projectName.required = true;
+
+  projectName.inputMode == "text";
+
+  let btnSubmit = document.createElement("button");
+
+  btnSubmit.textContent = "Create Project";
+
+  btnSubmit.addEventListener("click", addProject);
+
+  form.append(nameLabel, projectName, btnSubmit);
+
+  formContainer.append(form);
+}
+
+function addProject() {
+  let projectName = document.getElementById("projectName").value;
+
+  //if project name is blank, display message that input is invalid and exit this function
+  if (projectName == "") {
+    //only create error message if one isn't already on the page
+    if (document.getElementById("errorMessage") == null) {
+      let errorMsg = document.createElement("p");
+      errorMsg.id = "errorMessage";
+      errorMsg.textContent = "Please enter a project name.";
+      let parentContainer = document.getElementById("formContainer");
+      parentContainer.append(errorMsg);
+    };
+  } else {
+
+    //create new project using provided name
+
+    let newProject = new Project(projectName);
+
+    //add the new project to list for storage
+
+    projectsList.addProject(newProject);
+
+    //close modal since form is completed
+    let modal = document.getElementById("modal");
+    modal.style.display = "none";
+
+    //refresh project display so it will update with the new project
+    displayProjectList();
+
+    //switches the page display over to the newly created project
+    displaySelectedProject(newProject)
+  }
+}
