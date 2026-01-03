@@ -159,6 +159,22 @@
   gap: 25px;
 }
 
+#taskDescription {
+  width: 90%;
+}
+
+#taskNotes {
+  width: 90%;
+}
+
+#btnAddTask {
+  align-self: flex-start;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 5px;
+}
+
 .task {
   display: flex;
   gap: 20px;

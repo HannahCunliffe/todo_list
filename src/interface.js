@@ -130,6 +130,23 @@ function displaySelectedProject(project) {
   let tasksContainer = document.createElement("div");
   tasksContainer.id = "tasksContainer";
 
+  //create button to add new project tasks
+  let btnAddTask = document.createElement("button");
+
+  btnAddTask.textContent = "Add ToDo";
+
+  btnAddTask.id = "btnAddTask";
+
+  //add function to display task form once button clicked
+
+  btnAddTask.addEventListener("click", () => {
+    let modal = document.getElementById("modal");
+    modal.style.display = "block";
+    createTaskForm();
+  });
+
+  tasksContainer.append(btnAddTask);
+
   project.projectItems.forEach((element) => {
     let taskContainer = document.createElement("div");
     taskContainer.id = element.id;
@@ -342,9 +359,7 @@ function createProjectForm() {
 
   projectName.id = "projectName";
 
-  projectName.required = true;
-
-  projectName.inputMode == "text";
+  projectName.type = "text";
 
   let btnSubmit = document.createElement("button");
 
@@ -369,9 +384,8 @@ function addProject() {
       errorMsg.textContent = "Please enter a project name.";
       let parentContainer = document.getElementById("formContainer");
       parentContainer.append(errorMsg);
-    };
+    }
   } else {
-
     //create new project using provided name
 
     let newProject = new Project(projectName);
@@ -388,6 +402,125 @@ function addProject() {
     displayProjectList();
 
     //switches the page display over to the newly created project
-    displaySelectedProject(newProject)
-  }
-}
+    displaySelectedProject(newProject);
+  };
+};
+
+function addTask() {
+
+};
+
+function createTaskForm() {
+  let formContainer = document.getElementById("modalMainSection");
+
+  //removes any leftover elements that may already be in the section
+  while (formContainer.hasChildNodes() == true) {
+    formContainer.firstChild.remove();
+  };
+
+  //create input form and appropriate fields to add a new task
+
+  let form = document.createElement("div");
+
+  form.id = "formContainer";
+
+  let nameLabel = document.createElement("label");
+
+  nameLabel.textContent = "Task Title:";
+
+  nameLabel.htmlFor = "taskTitle";
+
+  let taskTitle = document.createElement("input");
+
+  taskTitle.id = "taskTitle";
+
+  taskTitle.required = true;
+
+  taskTitle.type = "text";
+
+  let descriptionLabel = document.createElement("label");
+
+  descriptionLabel.textContent = "Description:";
+
+  descriptionLabel.htmlFor = "taskDescription";
+
+  let taskDescription = document.createElement("textarea");
+
+  taskDescription.inputMode = "text";
+
+  taskDescription.id = "taskDescription";
+
+  taskDescription.rows = 6;
+
+  let dateLabel = document.createElement("label");
+
+  dateLabel.textContent = "Due Date:";
+
+  dateLabel.htmlFor = "taskDate";
+
+  let taskDate = document.createElement("input");
+
+  taskDate.type = "date";
+
+  taskDate.id = "taskDate";
+
+  let priorityLabel = document.createElement("label");
+
+  priorityLabel.textContent = "Priority:";
+
+  priorityLabel.htmlFor = "taskPriority";
+
+  let taskPriority = document.createElement("select");
+
+  taskPriority.id = "taskPriority";
+
+  let lowPriority = document.createElement("option");
+
+  lowPriority.textContent = "Low"
+
+  let mediumPriority = document.createElement("option");
+
+  mediumPriority.textContent = "Medium";
+
+  let highPriority = document.createElement("option");
+
+  highPriority.textContent = "High";
+
+  taskPriority.add(lowPriority);
+  taskPriority.add(mediumPriority);
+  taskPriority.add(highPriority);
+
+  let labelNotes = document.createElement("label");
+
+  labelNotes.textContent = "Notes:";
+
+  labelNotes.htmlFor = "taskNotes";
+
+  let taskNotes = document.createElement("textarea");
+
+  taskNotes.id = "taskNotes";
+
+  taskNotes.rows = 4;
+
+  let btnSubmit = document.createElement("button");
+
+  btnSubmit.textContent = "Create Task";
+
+  btnSubmit.addEventListener("click", addTask);
+
+  form.append(
+    nameLabel, 
+    taskTitle,
+    descriptionLabel, 
+    taskDescription , 
+    dateLabel, 
+    taskDate, 
+    priorityLabel, 
+    taskPriority,
+    labelNotes,
+    taskNotes, 
+    btnSubmit,
+  );
+
+  formContainer.append(form);
+};
