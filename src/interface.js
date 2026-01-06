@@ -7,6 +7,7 @@ export {
 
 import { projectsList } from "./projects";
 import { Project } from "./projects";
+import { ToDoItem } from "./projects";
 
 import plusIcon from "./assets/plus.svg";
 import deleteIcon from "./assets/delete-filled-svgrepo-com.svg";
@@ -104,7 +105,7 @@ function displayProjectList() {
       taskCount.id = `taskCounter:${element.id}`;
       taskCount.classList.add("taskCounter");
       projectContainer.append(taskCount);
-    }
+    };
 
     pageSidebar.append(projectContainer);
   });
@@ -121,7 +122,9 @@ function displaySelectedProject(project) {
 
   let projectHeading = document.createElement("h1");
 
-  projectHeading.id = "projectHeading";
+  projectHeading.classList.add("projectHeading");
+
+  projectHeading.id = project.id;
 
   projectHeading.textContent = project.projectName;
 
@@ -177,7 +180,8 @@ function displaySelectedProject(project) {
 
     taskContent.append(taskDescription);
 
-    if (element.notes != null) {
+    //if there are notes present for the task, display them
+    if (element.notes != "") {
       let heading = document.createElement("h4");
       heading.textContent = "Additional Notes:";
       let notes = document.createElement("p");
@@ -403,11 +407,95 @@ function addProject() {
 
     //switches the page display over to the newly created project
     displaySelectedProject(newProject);
-  };
-};
+  }
+}
 
 function addTask() {
+  //retrieve the id for the currently selected project from where it is saved on the page
+  let projectID = document.getElementsByClassName("projectHeading")[0].id;
 
+  //retrieve and check values from all form fields when submit clicked
+  //check if required fields are filled, don't continue adding task if not filled
+
+  let taskTitle = document.getElementById("taskTitle");
+  let taskDescription = document.getElementById("taskDescription");
+  let dueDate = document.getElementById("taskDate");
+  let taskPriority = document.getElementById("taskPriority");
+  let taskNotes = document.getElementById("taskNotes");
+
+  let title = taskTitle.value;
+  let description = taskDescription.value;
+  let date = dueDate.value;
+  let priority = taskPriority.value;
+  let notes = taskNotes.value;
+
+  //will not progress if task title, description and date fields are empty
+  if (title != "" && description != "" && date != "") {
+    //find selected project, and create new task using input information, then add to project
+    let project = projectsList.findProjectByID(projectID);
+
+    let newTask = new ToDoItem(title, description,  date, priority, notes, projectID);
+
+    project.addItem(newTask);
+   
+    //close modal since form is completed
+    let modal = document.getElementById("modal");
+    modal.style.display = "none";
+
+    //refresh task display so it will update with the new task
+    displaySelectedProject(project);
+    //refresh project list to update task counter
+    displayProjectList();
+  } else {
+    //remove pre-existing error messages so they're not displayed if
+    //the fields have since been filled in
+    let titleError = document.getElementById("titleError");
+    let descriptionError = document.getElementById("descriptionError");
+    let dateError = document.getElementById("dateError");
+
+    if (titleError != null) {
+      titleError.remove();
+    };
+
+    if (descriptionError != null) {
+      descriptionError.remove();
+    };
+
+    if (dateError != null) {
+      dateError.remove();
+    };
+
+    //add error messages to inform user of unfilled required fields
+    if (title == "") {
+      if (document.getElementById("titleError") == null) {
+        let errorMessage = document.createElement("p");
+        errorMessage.textContent = "Task must have a title";
+        errorMessage.classList.add("errorMessage");
+        errorMessage.id = "titleError";
+        taskTitle.after(errorMessage);
+      };
+    };
+
+    if (description == "") {
+      if (document.getElementById("descriptionError") == null) {
+        let errorMessage = document.createElement("p");
+        errorMessage.textContent = "Task must have a description";
+        errorMessage.classList.add("errorMessage");
+        errorMessage.id = "descriptionError";
+        taskDescription.after(errorMessage);
+      };
+    };
+
+    if (date == "") {
+      if (document.getElementById("dateError") == null) {
+        let errorMessage = document.createElement("p");
+        errorMessage.textContent = "Task must have a due date";
+        errorMessage.classList.add("errorMessage");
+        errorMessage.id = "dateError";
+        dueDate.after(errorMessage);
+      };
+    };
+  };
 };
 
 function createTaskForm() {
@@ -416,7 +504,7 @@ function createTaskForm() {
   //removes any leftover elements that may already be in the section
   while (formContainer.hasChildNodes() == true) {
     formContainer.firstChild.remove();
-  };
+  }
 
   //create input form and appropriate fields to add a new task
 
@@ -476,7 +564,7 @@ function createTaskForm() {
 
   let lowPriority = document.createElement("option");
 
-  lowPriority.textContent = "Low"
+  lowPriority.textContent = "Low";
 
   let mediumPriority = document.createElement("option");
 
@@ -509,18 +597,18 @@ function createTaskForm() {
   btnSubmit.addEventListener("click", addTask);
 
   form.append(
-    nameLabel, 
+    nameLabel,
     taskTitle,
-    descriptionLabel, 
-    taskDescription , 
-    dateLabel, 
-    taskDate, 
-    priorityLabel, 
+    descriptionLabel,
+    taskDescription,
+    dateLabel,
+    taskDate,
+    priorityLabel,
     taskPriority,
     labelNotes,
-    taskNotes, 
-    btnSubmit,
+    taskNotes,
+    btnSubmit
   );
 
   formContainer.append(form);
-};
+}

@@ -67,7 +67,7 @@
   cursor: pointer;
 }
 
-#errorMessage {
+#errorMessage, .errorMessage {
   color:  red;
 }
 
@@ -144,7 +144,7 @@
   flex-direction: column;
 }
 
-#projectHeading {
+.projectHeading {
   display: flex;
   justify-content: center;
   margin-top: 50px;

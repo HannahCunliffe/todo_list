@@ -26,7 +26,7 @@ function pageInit() {
     "to-do item description",
     currentDate,
     "Medium",
-    null,
+    "",
     defaultProject.id,
   );
 
