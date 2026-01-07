@@ -10,16 +10,16 @@ class ToDoItem {
     this.notes = notes;
     this.completed = false;
     this.projectID = projectID;
-  }
+  };
 
   toggleCompleted(status) {
     if (status == true) {
       this.completed = true;
     } else {
       this.completed = false;
-    }
-  }
-}
+    };
+  };
+};
 
 class Project {
   constructor(name) {

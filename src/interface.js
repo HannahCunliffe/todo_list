@@ -9,6 +9,8 @@ import { projectsList } from "./projects";
 import { Project } from "./projects";
 import { ToDoItem } from "./projects";
 
+import { populateStorage } from "./storage";
+
 import plusIcon from "./assets/plus.svg";
 import deleteIcon from "./assets/delete-filled-svgrepo-com.svg";
 
@@ -81,14 +83,20 @@ function displayProjectList() {
 
   while (projectContainers.length > 0) {
     projectContainers[0].remove();
-  }
+  };
 
   let projectsDiv = document.createElement("div");
 
   projectsDiv.id = "projectsList";
 
   list.forEach((element) => {
-    let numberOfTasks = element.projectItems.length;
+    let numberOfTasks = 0;
+    
+    element.projectItems.forEach((item) => {
+      if (item.completed == false) {
+        numberOfTasks += 1;
+      };
+    });
     let projectContainer = document.createElement("div");
     projectContainer.classList.add("projectContainer");
     let projectTitle = document.createElement("h2");
@@ -228,6 +236,8 @@ function displaySelectedProject(project) {
     deleteButton.addEventListener("click", () => {
       let taskID = element.id;
       project.removeItem(taskID);
+      //update storage with changed data
+      populateStorage();
       displaySelectedProject(project);
       displayProjectList();
     });
@@ -236,7 +246,7 @@ function displaySelectedProject(project) {
     if (element.completed == true) {
       taskContainer.classList.add("taskComplete");
       checkbox.checked = true;
-    }
+    };
   });
 
   pageSection.append(tasksContainer);
@@ -255,18 +265,21 @@ function addToggleTaskStatus(container, element, task) {
     if (container.classList.contains("taskComplete")) {
       container.classList.remove("taskComplete");
       //run function to keep sidebar task numbers correct
-      updateTaskCounter(task, "incomplete");
+      updateTaskCounter(task, false);
       task.toggleCompleted(false);
     } else {
       container.classList.add("taskComplete");
       //run function to keep sidebar task numbers correct
-      updateTaskCounter(task, "complete");
+      updateTaskCounter(task, true);
       task.toggleCompleted(true);
-    }
+    };
+      //update storage data
+      populateStorage();
   });
 }
 
 function updateTaskCounter(task, taskStatus) {
+
   let currentProject = task.projectID;
 
   let counterToUpdate = document.getElementById(
@@ -275,7 +288,7 @@ function updateTaskCounter(task, taskStatus) {
 
   let taskCount = Number(counterToUpdate.textContent);
 
-  if (taskStatus == "incomplete") {
+  if (taskStatus == false) {
     taskCount += 1;
     //remove styling reserved for all tasks complete if currently applied
     counterToUpdate.classList.remove("allTasksComplete");
@@ -288,7 +301,7 @@ function updateTaskCounter(task, taskStatus) {
   }
 
   counterToUpdate.textContent = taskCount;
-}
+};
 
 function createPageModal() {
   //create modal container
@@ -402,6 +415,9 @@ function addProject() {
     let modal = document.getElementById("modal");
     modal.style.display = "none";
 
+    //update local storage with new project
+    populateStorage();
+
     //refresh project display so it will update with the new project
     displayProjectList();
 
@@ -437,6 +453,9 @@ function addTask() {
     let newTask = new ToDoItem(title, description,  date, priority, notes, projectID);
 
     project.addItem(newTask);
+
+    //update storage with new data
+    populateStorage();
    
     //close modal since form is completed
     let modal = document.getElementById("modal");
@@ -611,4 +630,4 @@ function createTaskForm() {
   );
 
   formContainer.append(form);
-}
+};
