@@ -138,6 +138,8 @@ function displaySelectedProject(project) {
   deleteButton.append(buttonLabel, deleteBackground);
   deleteButton.classList.add("deleteProject");
 
+  addProjectDeleteMethod(deleteButton, project);
+
   pageSection.append(deleteButton);
 
   let projectHeading = document.createElement("h1");
@@ -648,4 +650,27 @@ function createTaskForm() {
   );
 
   formContainer.append(form);
-}
+};
+
+function addProjectDeleteMethod(deleteButton, project) {
+  deleteButton.addEventListener("click", () => {
+    //remove project on click
+    projectsList.removeProject(project);
+    
+    //check number of projects left in the list, if there's no projects left, create a default placeholder
+    //project and load that as the display
+    if (projectsList.list.length == 0) {
+      let defaultProject = new Project("Default Project");
+      projectsList.addProject(defaultProject);
+    };
+
+    //reload projects list with updated data
+    displayProjectList();
+
+    //have page display default back to the first project on the list
+    displaySelectedProject(projectsList.list[0]);
+
+    //update local storage to reflect data
+    populateStorage();
+  });
+};

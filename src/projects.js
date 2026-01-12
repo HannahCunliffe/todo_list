@@ -47,6 +47,11 @@ const projectsList = new (class ProjectList {
     this.list.push(project);
   };
 
+  removeProject(project) {
+    //reformat array with a filter to exclude the selected project to remove
+    this.list = this.list.filter((item) => item != project);
+  };
+
   //functionality to search and return a project item by ID
   findProjectByID(id) {
     let foundItem = null;
@@ -59,4 +64,5 @@ const projectsList = new (class ProjectList {
       return foundItem;
     };
   };
+
 })();
