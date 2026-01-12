@@ -113,10 +113,31 @@
   align-items: center;
   padding-top: 20px;
   padding-left: 20px;
-  padding-right: 20px;
+  padding-right: 5px;
   padding-bottom: 40px;
   margin-bottom: 10px;
   cursor: pointer;
+}
+
+.deleteProject {
+  display: flex;
+  gap: 8px;
+  align-self: flex-end;
+  background-color: #d7263d;
+  margin-top: 0px;
+  padding: 5px;
+  border: 3px solid #888;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.deleteProject p {
+  color: white;
+}
+
+.deleteProject img {  
+  height: 25px;
+  width: auto;
 }
 
 .taskCounter {

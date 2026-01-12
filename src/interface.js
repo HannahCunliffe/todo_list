@@ -13,6 +13,7 @@ import { populateStorage } from "./storage";
 
 import plusIcon from "./assets/plus.svg";
 import deleteIcon from "./assets/delete-filled-svgrepo-com.svg";
+import deleteIcon2 from "./assets/delete-1-svgrepo-com.svg";
 
 function displayPage() {
   //create general page sections and handle sidebar initial layout
@@ -83,7 +84,7 @@ function displayProjectList() {
 
   while (projectContainers.length > 0) {
     projectContainers[0].remove();
-  };
+  }
 
   let projectsDiv = document.createElement("div");
 
@@ -91,11 +92,11 @@ function displayProjectList() {
 
   list.forEach((element) => {
     let numberOfTasks = 0;
-    
+
     element.projectItems.forEach((item) => {
       if (item.completed == false) {
         numberOfTasks += 1;
-      };
+      }
     });
     let projectContainer = document.createElement("div");
     projectContainer.classList.add("projectContainer");
@@ -113,7 +114,7 @@ function displayProjectList() {
       taskCount.id = `taskCounter:${element.id}`;
       taskCount.classList.add("taskCounter");
       projectContainer.append(taskCount);
-    };
+    }
 
     pageSidebar.append(projectContainer);
   });
@@ -126,7 +127,18 @@ function displaySelectedProject(project) {
   //empty container to ensure that the display is starting from a blank page section
   while (pageSection.hasChildNodes() == true) {
     pageSection.firstChild.remove();
-  }
+  };
+
+  //create delete button for each project
+  let deleteButton = document.createElement("div");
+  let buttonLabel = document.createElement("p");
+  buttonLabel.textContent = "Delete Project";
+  let deleteBackground = document.createElement("img");
+  deleteBackground.src = deleteIcon2;
+  deleteButton.append(buttonLabel, deleteBackground);
+  deleteButton.classList.add("deleteProject");
+
+  pageSection.append(deleteButton);
 
   let projectHeading = document.createElement("h1");
 
@@ -246,7 +258,7 @@ function displaySelectedProject(project) {
     if (element.completed == true) {
       taskContainer.classList.add("taskComplete");
       checkbox.checked = true;
-    };
+    }
   });
 
   pageSection.append(tasksContainer);
@@ -272,14 +284,13 @@ function addToggleTaskStatus(container, element, task) {
       //run function to keep sidebar task numbers correct
       updateTaskCounter(task, true);
       task.toggleCompleted(true);
-    };
-      //update storage data
-      populateStorage();
+    }
+    //update storage data
+    populateStorage();
   });
 }
 
 function updateTaskCounter(task, taskStatus) {
-
   let currentProject = task.projectID;
 
   let counterToUpdate = document.getElementById(
@@ -301,7 +312,7 @@ function updateTaskCounter(task, taskStatus) {
   }
 
   counterToUpdate.textContent = taskCount;
-};
+}
 
 function createPageModal() {
   //create modal container
@@ -450,13 +461,20 @@ function addTask() {
     //find selected project, and create new task using input information, then add to project
     let project = projectsList.findProjectByID(projectID);
 
-    let newTask = new ToDoItem(title, description,  date, priority, notes, projectID);
+    let newTask = new ToDoItem(
+      title,
+      description,
+      date,
+      priority,
+      notes,
+      projectID
+    );
 
     project.addItem(newTask);
 
     //update storage with new data
     populateStorage();
-   
+
     //close modal since form is completed
     let modal = document.getElementById("modal");
     modal.style.display = "none";
@@ -474,15 +492,15 @@ function addTask() {
 
     if (titleError != null) {
       titleError.remove();
-    };
+    }
 
     if (descriptionError != null) {
       descriptionError.remove();
-    };
+    }
 
     if (dateError != null) {
       dateError.remove();
-    };
+    }
 
     //add error messages to inform user of unfilled required fields
     if (title == "") {
@@ -492,8 +510,8 @@ function addTask() {
         errorMessage.classList.add("errorMessage");
         errorMessage.id = "titleError";
         taskTitle.after(errorMessage);
-      };
-    };
+      }
+    }
 
     if (description == "") {
       if (document.getElementById("descriptionError") == null) {
@@ -502,8 +520,8 @@ function addTask() {
         errorMessage.classList.add("errorMessage");
         errorMessage.id = "descriptionError";
         taskDescription.after(errorMessage);
-      };
-    };
+      }
+    }
 
     if (date == "") {
       if (document.getElementById("dateError") == null) {
@@ -512,10 +530,10 @@ function addTask() {
         errorMessage.classList.add("errorMessage");
         errorMessage.id = "dateError";
         dueDate.after(errorMessage);
-      };
-    };
-  };
-};
+      }
+    }
+  }
+}
 
 function createTaskForm() {
   let formContainer = document.getElementById("modalMainSection");
@@ -630,4 +648,4 @@ function createTaskForm() {
   );
 
   formContainer.append(form);
-};
+}

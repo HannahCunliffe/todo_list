@@ -97,4 +97,4 @@ if (storageAvailable("localStorage")) {
 } else {
   console.log("Local storage not available");
   pageInit();
-}
+};
