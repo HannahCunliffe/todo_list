@@ -8,7 +8,7 @@ import {
 import { loadStorage, populateStorage, storageAvailable } from "./storage";
 
 function pageInit() {
-  let currentDate = new Date().toLocaleDateString();
+  let currentDate = new Date().toDateString();
 
   //initialise example projects
 

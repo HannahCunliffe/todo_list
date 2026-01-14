@@ -14,6 +14,7 @@ import { populateStorage } from "./storage";
 import plusIcon from "./assets/plus.svg";
 import deleteIcon from "./assets/delete-filled-svgrepo-com.svg";
 import deleteIcon2 from "./assets/delete-1-svgrepo-com.svg";
+import editIcon from "./assets/edit-svgrepo-com.svg";
 
 function displayPage() {
   //create general page sections and handle sidebar initial layout
@@ -98,6 +99,7 @@ function displayProjectList() {
         numberOfTasks += 1;
       }
     });
+
     let projectContainer = document.createElement("div");
     projectContainer.classList.add("projectContainer");
     let projectTitle = document.createElement("h2");
@@ -127,7 +129,7 @@ function displaySelectedProject(project) {
   //empty container to ensure that the display is starting from a blank page section
   while (pageSection.hasChildNodes() == true) {
     pageSection.firstChild.remove();
-  };
+  }
 
   //create delete button for each project
   let deleteButton = document.createElement("div");
@@ -234,6 +236,13 @@ function displaySelectedProject(project) {
       taskContainer.classList.add("highPriority");
     }
 
+    //create edit button for task
+    let editButton = document.createElement("p");
+    let editBackground = document.createElement("img");
+    editBackground.src = editIcon;
+    editButton.append(editBackground);
+    editButton.classList.add("btnEditTask");
+
     //create delete button for task
     let deleteButton = document.createElement("p");
     let deleteBackground = document.createElement("img");
@@ -243,6 +252,7 @@ function displaySelectedProject(project) {
 
     taskContainer.append(checkboxDiv);
     taskContainer.append(taskContent);
+    taskContainer.append(editButton);
     taskContainer.append(deleteButton);
     tasksContainer.append(taskContainer);
 
@@ -255,6 +265,9 @@ function displaySelectedProject(project) {
       displaySelectedProject(project);
       displayProjectList();
     });
+
+    //apply edit function to each task edit button
+    addTaskEdit(project, element, editButton);
 
     //check if task is marked completed and apply correct styling if so
     if (element.completed == true) {
@@ -454,7 +467,7 @@ function addTask() {
 
   let title = taskTitle.value;
   let description = taskDescription.value;
-  let date = dueDate.value;
+  let date = dueDate.valueAsDate.toDateString();
   let priority = taskPriority.value;
   let notes = taskNotes.value;
 
@@ -537,7 +550,7 @@ function addTask() {
   }
 }
 
-function createTaskForm() {
+function createTaskForm(task, project) {
   let formContainer = document.getElementById("modalMainSection");
 
   //removes any leftover elements that may already be in the section
@@ -633,7 +646,51 @@ function createTaskForm() {
 
   btnSubmit.textContent = "Create Task";
 
-  btnSubmit.addEventListener("click", addTask);
+  //if task has been passed into function for editing, set up form with that task's info
+  //and a different button function
+  if (task) {
+    taskTitle.value = task.title;
+    taskDescription.value = task.description;
+    let date = new Date(Date.parse(task.dueDate));
+    taskDate.valueAsDate = date;
+
+    //check task priority and select the priority previously chosen for the task to be displayed
+    //as the selected value by default
+    switch (task.priority) {
+      case "Low":
+        taskPriority.selectedIndex = 0;
+        break;
+      case "Medium":
+        taskPriority.selectedIndex = 1;
+        break;
+      case "High":
+        taskPriority.selectedIndex = 2;
+        break;
+    }
+
+    taskNotes.textContent = task.notes;
+
+    btnSubmit.textContent = "Edit Task";
+    btnSubmit.addEventListener("click", () => {
+      task.title = taskTitle.value;
+      task.description = taskDescription.value;
+      task.dueDate = taskDate.valueAsDate.toDateString();
+      task.priority = taskPriority.value;
+      task.notes = taskNotes.value;
+
+      //update storage with new data
+      populateStorage();
+
+      //close modal since form is completed
+      let modal = document.getElementById("modal");
+      modal.style.display = "none";
+
+      //refresh task display so it will update with the new task info
+      displaySelectedProject(project);
+    });
+  } else {
+    btnSubmit.addEventListener("click", addTask);
+  }
 
   form.append(
     nameLabel,
@@ -650,19 +707,19 @@ function createTaskForm() {
   );
 
   formContainer.append(form);
-};
+}
 
 function addProjectDeleteMethod(deleteButton, project) {
   deleteButton.addEventListener("click", () => {
     //remove project on click
     projectsList.removeProject(project);
-    
+
     //check number of projects left in the list, if there's no projects left, create a default placeholder
     //project and load that as the display
     if (projectsList.list.length == 0) {
       let defaultProject = new Project("Default Project");
       projectsList.addProject(defaultProject);
-    };
+    }
 
     //reload projects list with updated data
     displayProjectList();
@@ -673,4 +730,12 @@ function addProjectDeleteMethod(deleteButton, project) {
     //update local storage to reflect data
     populateStorage();
   });
-};
+}
+
+function addTaskEdit(project, task, editButton) {
+  editButton.addEventListener("click", () => {
+    let modal = document.getElementById("modal");
+    modal.style.display = "block";
+    createTaskForm(task, project);
+  });
+}

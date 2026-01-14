@@ -247,11 +247,10 @@
   cursor: pointer;
 }
 
-.btnDeleteTask img {
+.btnDeleteTask img, .btnEditTask img {
   margin-top: 5px;
   height: 20px;
   width: auto;
-  color: red;
   cursor: pointer;
 }
 
